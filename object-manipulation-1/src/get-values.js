@@ -2,7 +2,6 @@
 
 function getValues(object) {
   const values = [];
-  if (object === {}) return values;
   for (const value in object) {
     values.push(object[value]);
   }
