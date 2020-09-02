@@ -1,8 +1,13 @@
 /* eslint-disable no-unused-vars */
 
 function capitalizeWord(word) {
-  if (word.length === 10) {
-    return 'JavaScript';
+  const output = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  let finalOutput = '';
+  for (let i = 0; i < output.length; i++) {
+    if (output[i] === 's') {
+      output[i].toUpperCase();
+    }
+    finalOutput += output[i];
   }
-  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  return finalOutput;
 }
