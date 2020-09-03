@@ -3,11 +3,7 @@
 function chunk(array, size) {
   const parentArr = [];
   for (let i = 0; i < array.length; i += size) {
-    const subArr = [];
-    for (let j = 0; j < size; j++) {
-      subArr.push(array[j]);
-    }
-    parentArr.push(subArr);
+    parentArr.push(array.slice(i, i + size));
   }
   return parentArr;
 }
