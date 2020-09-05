@@ -1,10 +1,10 @@
 {
-  "nextId": 5,
+  "nextId": 6,
   "notes": {
-    "1": "eat",
-    "2": "Sleep",
-    "3": "code",
-    "4": "code",
-    "5": "code"
+    "1": "code",
+    "2": "eat",
+    "3": "Sleep",
+    "4": "eat",
+    "5": "smash"
   }
 }
