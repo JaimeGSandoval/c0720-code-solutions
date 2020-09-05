@@ -1,3 +1,3 @@
-module.exports = function updateNote(todoTask, strNote) {
+module.exports = function updateNote(id, strNote) {
 
 };
