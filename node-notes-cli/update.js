@@ -1,15 +1,14 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const data = require('./data.json');
-const dataNotes = data.notes;
 let stringifiedNoteData = null;
 
 function updateNote(note, id) {
 
-  for (const key in dataNotes) {
+  for (const key in data.notes) {
     if (key === id) {
-      dataNotes[key] = note;
-      return dataNotes;
+      data.notes[key] = note;
+      return data;
     }
   }
 }
