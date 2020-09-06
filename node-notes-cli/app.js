@@ -4,7 +4,8 @@ const readNote = require('./read.js');
 const updateNote = require('./update.js');
 const deleteNote = require('./delete.js');
 const task = process.argv[2];
-const note = process.argv[3];
+const noteId = process.argv[3];
+const note = process.argv[4];
 
 function executeTask(strNote, id) {
   switch (task) {
@@ -29,4 +30,4 @@ function executeTask(strNote, id) {
   }
 }
 
-executeTask(note);
+executeTask(note, noteId);
