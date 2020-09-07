@@ -1,17 +1,16 @@
 /* eslint-disable no-console */
 const fs = require('fs');
-const dataNotes = require('./data.json');
+const data = require('./data.json');
 
-module.exports = function readNote(data) {
-
-  fs.readFile('./data.json', 'utf-8', (err, data) => {
+module.exports = function readNote() {
+  fs.readFile('./data.json', 'utf-8', err => {
     if (err) {
       console.log(err);
       process.exit(1);
     }
 
-    for (const key in dataNotes.notes) {
-      console.log(`${key}: ${dataNotes.notes[key]} `);
+    for (const key in data.notes) {
+      console.log(`${key}: ${data.notes[key]} `);
     }
   });
 };

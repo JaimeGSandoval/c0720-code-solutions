@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const data = require('./data.json');
 const fs = require('fs');
+const data = require('./data.json');
 const note = process.argv[3];
 let stringifiedNoteData = null;
 
@@ -19,11 +19,3 @@ module.exports = function createNote(str) {
     }
   });
 };
-
-// function isEmpty(obj) {
-//   return Object.keys(obj).length === 0;
-// }
-
-// if (isEmpty(data.notes)) {
-//   data.nextId = 1;
-// }

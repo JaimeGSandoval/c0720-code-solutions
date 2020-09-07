@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const data = require('./data.json');
-let stringifiedNoteData = null;
 
 function findNoteToUpdate(note, id) {
   for (const key in data.notes) {
@@ -13,6 +12,7 @@ function findNoteToUpdate(note, id) {
 }
 
 module.exports = function updateNote(str) {
+  let stringifiedNoteData = null;
   stringifiedNoteData = JSON.stringify(findNoteToUpdate(process.argv[4], process.argv[3]), null, 2);
   fs.writeFile('data.json', stringifiedNoteData, err => {
     if (err) {

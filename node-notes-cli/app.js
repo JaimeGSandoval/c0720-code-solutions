@@ -9,23 +9,18 @@ const note = process.argv[4];
 
 function executeTask(strNote, id) {
   switch (task) {
-
     case 'create':
       createNote(strNote);
       break;
-
     case 'read':
       readNote();
       break;
-
     case 'update':
       updateNote(strNote, id);
       break;
-
     case 'delete':
       deleteNote(strNote, id);
       break;
-
     default: return 'Invalid Entry';
   }
 }
