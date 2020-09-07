@@ -4,14 +4,14 @@ const fs = require('fs');
 const note = process.argv[3];
 let stringifiedNoteData = null;
 
-function createNote(strNote) {
+function newNoteCreation(strNote) {
   data.nextId++;
   data.notes[data.nextId - 1] = strNote;
   return data;
 }
 
-module.exports = function appendNote(str) {
-  stringifiedNoteData = JSON.stringify(createNote(note), null, 2);
+module.exports = function createNote(str) {
+  stringifiedNoteData = JSON.stringify(newNoteCreation(note), null, 2);
   fs.writeFile('data.json', stringifiedNoteData, err => {
     if (err) {
       console.log(err);
@@ -19,3 +19,11 @@ module.exports = function appendNote(str) {
     }
   });
 };
+
+// function isEmpty(obj) {
+//   return Object.keys(obj).length === 0;
+// }
+
+// if (isEmpty(data.notes)) {
+//   data.nextId = 1;
+// }

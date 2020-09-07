@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const appendNote = require('./create.js');
+const createNote = require('./create.js');
 const readNote = require('./read.js');
 const updateNote = require('./update.js');
 const deleteNote = require('./delete.js');
@@ -11,7 +11,7 @@ function executeTask(strNote, id) {
   switch (task) {
 
     case 'create':
-      appendNote(strNote);
+      createNote(strNote);
       break;
 
     case 'read':
@@ -23,7 +23,7 @@ function executeTask(strNote, id) {
       break;
 
     case 'delete':
-      deleteNote(strNote);
+      deleteNote(strNote, id);
       break;
 
     default: return 'Invalid Entry';
