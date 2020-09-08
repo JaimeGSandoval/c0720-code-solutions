@@ -6,5 +6,4 @@ function defaults(target, source) {
       target[key] = value;
     }
   }
-  return target;
 }
