@@ -2,6 +2,10 @@
 
 function pick(source, keys) {
   const keyObj = {};
-  const sourceKeys = Object.keys(source);
-
+  for (const key of keys) {
+    if (source[key] !== undefined) {
+      keyObj[key] = source[key];
+    }
+  }
+  return keyObj;
 }
