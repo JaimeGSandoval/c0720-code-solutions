@@ -3,20 +3,20 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const data = require('./data.json');
-const notes = [];
 let stringifiedNoteData = null;
 
 function newNoteCreation(content) {
+  data.notes[data.nextId] = {};
+  data.notes[data.nextId].id = data.nextId;
+  data.notes[data.nextId].content = content;
   data.nextId++;
-  data.notes[data.nextId - 1] = {};
-  data.notes[data.nextId - 1].content = content;
-  data.notes[data.nextId - 1].id = data.nextId - 1;
   return data;
 }
 
 app.use(express.json());
 
-app.get('/api/notes', function (req, res, next) {
+app.get('/api/notes', function (req, res) {
+  const notes = [];
   const notesKeyLength = Object.keys(data.notes).length;
   if (notesKeyLength === 0) {
     res.send(notes);
@@ -26,25 +26,25 @@ app.get('/api/notes', function (req, res, next) {
     }
     res.send(notes).json();
   }
-  next();
 });
 
-app.get('/api/notes/:id', function (req, res, next) {
+app.get('/api/notes/:id', function (req, res) {
   for (const objId in data.notes) {
     if (req.params.id < 1) {
-      return res.status(400).json({ error: 'ID must be a positive integer' });
+      res.status(400).json({ error: 'ID must be a positive integer' });
+      return;
     } else if (req.params.id === objId) {
-      return res.send(data.notes[objId]);
+      res.send(data.notes[objId]);
+      return;
     }
   }
-  next();
-  return res.status(404).json({ error: 'Cannot find note with id ' + req.params.id });
+  res.status(404).send({ error: 'Cannot find note with id ' + req.params.id });
 });
 
 app.post('/api/notes', function (req, res, next) {
 
   if (!req.body.content) {
-    return res.status(400).send({ error: 'content is a required field' });
+    res.status(400).send({ error: 'content is a required field' });
 
   } else if (req.body.content) {
     req.body.id = data.nextId;
@@ -52,16 +52,13 @@ app.post('/api/notes', function (req, res, next) {
 
     fs.writeFile('data.json', stringifiedNoteData, err => {
       if (err) {
-
-        console.error({ error: 'An unexpected error occurred.' });
-        process.exit(1);
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+        return;
       }
+      res.status(201).send(req.body).json();
     });
-
-    return res.status(201).send(req.body).json();
   }
-
-  next();
 });
 
 app.listen(3000, err => {
