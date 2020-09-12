@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const data = require('./data.json');
-let stringifiedNoteData = null;
 
 app.use(express.json());
 
@@ -24,7 +23,7 @@ app.get('/api/notes', function (req, res) {
     for (const i in data.notes) {
       notes.push(data.notes[i]);
     }
-    res.send(notes).json();
+    res.json(notes);
   }
 });
 
@@ -41,6 +40,7 @@ app.get('/api/notes/:id', function (req, res) {
 });
 
 app.post('/api/notes', function (req, res) {
+  let stringifiedNoteData = null;
 
   if (!req.body.content) {
     res.status(400).send({ error: 'content is a required field' });
