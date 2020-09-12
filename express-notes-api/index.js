@@ -5,6 +5,8 @@ const fs = require('fs');
 const data = require('./data.json');
 let stringifiedNoteData = null;
 
+app.use(express.json());
+
 function newNoteCreation(content) {
   data.notes[data.nextId] = {};
   data.notes[data.nextId].id = data.nextId;
@@ -12,8 +14,6 @@ function newNoteCreation(content) {
   data.nextId++;
   return data;
 }
-
-app.use(express.json());
 
 app.get('/api/notes', function (req, res) {
   const notes = [];
@@ -29,19 +29,18 @@ app.get('/api/notes', function (req, res) {
 });
 
 app.get('/api/notes/:id', function (req, res) {
-  for (const objId in data.notes) {
-    if (req.params.id < 1) {
-      res.status(400).json({ error: 'ID must be a positive integer' });
-      return;
-    } else if (req.params.id === objId) {
-      res.send(data.notes[objId]);
-      return;
-    }
+  if (req.params.id < 1) {
+    res.status(400).json({ error: 'ID must be a positive integer' });
+
+  } else if (!data.notes[req.params.id]) {
+    res.status(404).send({ error: 'Cannot find note with id ' + req.params.id });
+
+  } else {
+    res.send(data.notes[req.params.id]);
   }
-  res.status(404).send({ error: 'Cannot find note with id ' + req.params.id });
 });
 
-app.post('/api/notes', function (req, res, next) {
+app.post('/api/notes', function (req, res) {
 
   if (!req.body.content) {
     res.status(400).send({ error: 'content is a required field' });
@@ -57,6 +56,46 @@ app.post('/api/notes', function (req, res, next) {
         return;
       }
       res.status(201).send(req.body).json();
+    });
+  }
+});
+
+app.delete('/api/notes/:id', function (req, res) {
+  if (req.params.id < 1) {
+    res.status(400).json({ error: 'ID must be a positive integer' });
+
+  } else if (!data.notes[req.params.id]) {
+    res.status(404).send({ error: 'Cannot find note with id ' + req.params.id });
+
+  } else {
+    delete data.notes[req.params.id];
+
+    fs.writeFile('data.json', JSON.stringify(data, null, 2), err => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+        return;
+      }
+      res.sendStatus(204);
+    });
+  }
+});
+
+app.put('/api/notes/:id', function (req, res) {
+  if (req.params.id < 1) {
+    res.status(400).json({ error: 'ID must be a positive integer' });
+  } else if (!data.notes[req.params.id]) {
+    res.status(404).send({ error: 'Cannot find note with id ' + req.params.id });
+  } else {
+    data.notes[req.params.id].content = req.body.content;
+
+    fs.writeFile('data.json', JSON.stringify(data, null, 2), err => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+        return;
+      }
+      res.send(req.body).json();
     });
   }
 });
