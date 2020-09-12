@@ -82,8 +82,8 @@ app.delete('/api/notes/:id', function (req, res) {
 });
 
 app.put('/api/notes/:id', function (req, res) {
-  if (req.params.id < 1) {
-    res.status(400).json({ error: 'ID must be a positive integer' });
+  if (req.params.id < 1 || !req.body.content) {
+    res.status(400).json({ error: 'ID must be a positive integer and content must have a value' });
   } else if (!data.notes[req.params.id]) {
     res.status(404).send({ error: 'Cannot find note with id ' + req.params.id });
   } else {
@@ -95,7 +95,7 @@ app.put('/api/notes/:id', function (req, res) {
         res.status(500).json({ error: 'An unexpected error occurred' });
         return;
       }
-      res.send(req.body).json();
+      res.send(data.notes[req.params.id]);
     });
   }
 });
