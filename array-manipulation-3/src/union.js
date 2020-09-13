@@ -5,8 +5,7 @@ function union(first, second) {
   for (let i = 0; i < output.length; i++) {
     if (!output[i] || !second[i]) {
       return output;
-    }
-    if (!output.includes(second[i])) {
+    } else if (!output.includes(second[i])) {
       output.push(second[i]);
     }
   }
