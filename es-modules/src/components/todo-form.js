@@ -1,4 +1,5 @@
 const { createElement } = require('../lib');
+
 class TodoForm {
   constructor(onSubmit) {
     this.newTask = '';
@@ -44,4 +45,3 @@ class TodoForm {
 }
 
 module.exports = TodoForm;
-// export { TodoForm };

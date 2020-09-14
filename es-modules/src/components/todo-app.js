@@ -1,7 +1,6 @@
-
-const TodoForm = require('./todo-form');
 const { createElement, noop } = require('../lib');
 const TodoList = require('./todo-list');
+const TodoForm = require('./todo-form');
 
 class TodoApp {
   constructor(container, nextId, todos, onUpdate = noop) {
@@ -53,6 +52,4 @@ class TodoApp {
   }
 }
 
-// module.exports = TodoApp;
-
-export { TodoApp };
+module.exports = TodoApp;
