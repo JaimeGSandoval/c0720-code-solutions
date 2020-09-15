@@ -1,6 +1,6 @@
-const { createElement, noop } = require('../lib');
-const TodoList = require('./todo-list');
-const TodoForm = require('./todo-form');
+import TodoForm from './todo-form';
+import TodoList from './todo-list';
+import { createElement, noop } from '../lib';
 
 class TodoApp {
   constructor(container, nextId, todos, onUpdate = noop) {
@@ -52,4 +52,4 @@ class TodoApp {
   }
 }
 
-module.exports = TodoApp;
+export default TodoApp;
