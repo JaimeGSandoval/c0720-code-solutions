@@ -23,4 +23,18 @@ const pokedex = [
   { number: '039', name: 'Jigglypuff' }
 ];
 
+// Tim's solution
+// const element = (
+//   <ul>
+//     {
+//       pokedex.map(pokemon => {
+//         return <li key={pokemon.number}>{pokemon.name}</li>;
+//       })
+//     }
+//   </ul>
+// );
+
 ReactDOM.render(<PokemonList names={pokedex} />, document.getElementById('root'));
+
+// Tim's solution
+// ReactDOM.render(element, document.getElementById('root'));
