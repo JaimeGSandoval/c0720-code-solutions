@@ -1,0 +1,36 @@
+.container {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.watch-face {
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.time-digit {
+  font-size: 3rem;
+}
+
+.fa-play-circle {
+  cursor: pointer;
+  font-size: 3rem;
+  margin-top: 50px;
+}
+
+.fa-pause-circle {
+  font-size: 3rem;
+  cursor: pointer;
+  margin-top: 50px;
+}
