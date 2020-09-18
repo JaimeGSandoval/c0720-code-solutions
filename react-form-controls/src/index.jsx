@@ -23,7 +23,7 @@ class NewsletterForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="email">Email</label>
-        <input type="email" value={this.state.value} id="email" onChange={this.handleChange} />
+        <input type="email" value={this.state.email} id="email" onChange={this.handleChange} />
         <button type="submit">Sign Up</button>
       </form>
     );
