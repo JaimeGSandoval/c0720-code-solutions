@@ -12,10 +12,6 @@ body {
   cursor: pointer;
 }
 
-.black {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
 .side-menu {
   top: 0;
   height: 100vh;
@@ -28,6 +24,7 @@ body {
   text-align: center;
   background-color: white;
   position: absolute;
+  transition: all 0.5s ease-in-out;
 }
 
 .show {
@@ -39,8 +36,19 @@ body {
   text-decoration: none;
   font-size: 1.2rem;
   margin-bottom: 20px;
+  width: 15rem;
 }
 
 .menu-title {
   font-size: 1.6rem;
+  width: 15rem;
+}
+
+.modal-overlay {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.show-modal {
+  height: 100vh;
 }

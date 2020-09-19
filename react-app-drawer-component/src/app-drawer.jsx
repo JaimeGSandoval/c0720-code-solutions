@@ -11,12 +11,8 @@ class AppDrawer extends React.Component {
   handleClick(event) {
     this.setState(function (state) {
       if (!this.state.isShown) {
-        // this.cssClass += ' show';
-        document.body.addEventListener('click', this.hideMenu);
-        document.body.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
         return { isShown: true };
       } else {
-        document.body.style.backgroundColor = 'white';
         return { isShown: false };
       }
     });
@@ -24,21 +20,22 @@ class AppDrawer extends React.Component {
 
   hideMenu() {
     this.setState(function () {
-      // this.cssClass = 'side-menu';
-      document.body.style.backgroundColor = 'white';
       return { isShown: false };
     });
   }
 
   render() {
+    let modalStyles = 'modal-overlay';
     let cssClass = 'side-menu';
     if (!this.state.isShown) {
       cssClass = 'side-menu';
     } else {
+      modalStyles += ' show-modal';
       cssClass += ' show';
     }
     return (
       <>
+        <div className={modalStyles} onClick={this.hideMenu}></div>
         <i className="fas fa-bars mobile-menu-icon" onClick={this.handleClick}></i>
         <div className={cssClass}>
           <p className="menu-title">Menu</p>
