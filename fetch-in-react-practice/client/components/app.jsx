@@ -22,17 +22,18 @@ class App extends React.Component {
       .then(response => response.json())
       .then(responseData => this.setState({ todos: responseData }))
       .catch(error => console.error('Fetch error', error));
+
   }
 
   addTodo(newTodo) {
     /**
-     * Use fetch to send a POST request to `/api/todos`.
-     * Then 😉, once the response JSON is received and parsed,
-     * add the created todo to the state array.
-     *
-     * TIP: Be sure to SERIALIZE the todo in the body with JSON.stringify()
-     * And specify the "Content-Type" header as "application/json"
-     */
+       * Use fetch to send a POST request to `/api/todos`.
+       * Then 😉, once the response JSON is received and parsed,
+       * add the created todo to the state array.
+       *
+       * TIP: Be sure to SERIALIZE the todo in the body with JSON.stringify()
+       * And specify the "Content-Type" header as "application/json"
+       */
 
     fetch('/api/todos', {
       method: 'POST',
@@ -48,16 +49,16 @@ class App extends React.Component {
 
   toggleCompleted(todoId) {
     /**
-     * Find the index of the matching todo in the state array.
-     * Find its "isCompleted" status.
-     * Make a new Object containing the opposite "isCompleted" status.
-     * Use fetch to send a PATCH request to `/api/todos/${todoId}`
-     * Then 😉, once the response JSON is received and parsed,
-     * replace the old todo in state.
-     *
-     * TIP: Be sure to SERIALIZE the updates in the body with JSON.stringify()
-     * And specify the "Content-Type" header as "application/json"
-     */
+       * Find the index of the matching todo in the state array.
+       * Find its "isCompleted" status.
+       * Make a new Object containing the opposite "isCompleted" status.
+       * Use fetch to send a PATCH request to `/api/todos/${todoId}`
+       * Then 😉, once the response JSON is received and parsed,
+       * replace the old todo in state.
+       *
+       * TIP: Be sure to SERIALIZE the updates in the body with JSON.stringify()
+       * And specify the "Content-Type" header as "application/json"
+       */
   }
 
   render() {
