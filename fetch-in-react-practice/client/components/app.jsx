@@ -27,43 +27,59 @@ class App extends React.Component {
 
   addTodo(newTodo) {
 
-    fetch('/api/todos', {
+    const req = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(newTodo)
-    })
+    };
+
+    fetch('/api/todos', req)
       .then(response => response.json())
-      .then(responseData => {
-        this.state.todos.push(responseData);
-        this.setState([{ todos: responseData }]);
+      .then(todo => {
+        this.setState(state => {
+          return {
+            todos: state.todos.concat(todo)
+          };
+        });
       })
       .catch(error => console.error('Post Error:', error));
   }
 
   toggleCompleted(todoId) {
 
-    const todosArr = this.state.todos;
-    for (let i = 0; i < todosArr.length; i++) {
-      if (todosArr[i].id === todoId) {
-        if (!todosArr[i].isCompleted) {
+    let todoIndex;
 
-          todosArr[i].isCompleted = true;
-
-          fetch(`/api/todos/${todoId}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body: JSON.stringify(todosArr[i])
-          })
-            .then(response => response.json())
-            .then(responseData => this.setState([{ todos: responseData }]))
-            .catch(error => console.error('Patch error', error));
-        }
+    for (let i = 0; i < this.state.todos.length; i++) {
+      if (this.state.todos[i].id === todoId) {
+        todoIndex = i;
+        break;
       }
     }
+
+    const targetTodo = this.state.todos[todoIndex];
+    const currentIsCompleted = targetTodo.isCompleted;
+    const update = {
+      isCompleted: !currentIsCompleted
+    };
+
+    const req = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(update)
+    };
+
+    fetch(`/api/todos/${todoId}`, req)
+      .then(response => response.json())
+      .then(updatedTodo => {
+        const newTodos = this.state.todos.slice();
+        newTodos[todoIndex] = updatedTodo;
+        this.setState({ todos: newTodos });
+      })
+      .catch(error => console.error('Patch error', error));
   }
 
   render() {
