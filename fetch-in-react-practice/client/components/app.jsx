@@ -18,6 +18,7 @@ class App extends React.Component {
   }
 
   getAllTodos() {
+
     fetch('/api/todos')
       .then(response => response.json())
       .then(responseData => this.setState({ todos: responseData }))
@@ -42,17 +43,27 @@ class App extends React.Component {
   }
 
   toggleCompleted(todoId) {
-    /**
-       * Find the index of the matching todo in the state array.
-       * Find its "isCompleted" status.
-       * Make a new Object containing the opposite "isCompleted" status.
-       * Use fetch to send a PATCH request to `/api/todos/${todoId}`
-       * Then 😉, once the response JSON is received and parsed,
-       * replace the old todo in state.
-       *
-       * TIP: Be sure to SERIALIZE the updates in the body with JSON.stringify()
-       * And specify the "Content-Type" header as "application/json"
-       */
+
+    const todosArr = this.state.todos;
+    for (let i = 0; i < todosArr.length; i++) {
+      if (todosArr[i].id === todoId) {
+        if (!todosArr[i].isCompleted) {
+
+          todosArr[i].isCompleted = true;
+
+          fetch(`/api/todos/${todoId}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify(todosArr[i])
+          })
+            .then(response => response.json())
+            .then(responseData => this.setState([{ todos: responseData }]))
+            .catch(error => console.error('Patch error', error));
+        }
+      }
+    }
   }
 
   render() {
