@@ -22,18 +22,9 @@ class App extends React.Component {
       .then(response => response.json())
       .then(responseData => this.setState({ todos: responseData }))
       .catch(error => console.error('Fetch error', error));
-
   }
 
   addTodo(newTodo) {
-    /**
-       * Use fetch to send a POST request to `/api/todos`.
-       * Then 😉, once the response JSON is received and parsed,
-       * add the created todo to the state array.
-       *
-       * TIP: Be sure to SERIALIZE the todo in the body with JSON.stringify()
-       * And specify the "Content-Type" header as "application/json"
-       */
 
     fetch('/api/todos', {
       method: 'POST',
@@ -43,7 +34,10 @@ class App extends React.Component {
       body: JSON.stringify(newTodo)
     })
       .then(response => response.json())
-      .then(responseData => this.setState({ todos: responseData }))
+      .then(responseData => {
+        this.state.todos.push(responseData);
+        this.setState([{ todos: responseData }]);
+      })
       .catch(error => console.error('Post Error:', error));
   }
 
