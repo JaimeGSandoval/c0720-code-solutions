@@ -38,15 +38,20 @@ app.get('/api/grades', (req, res, next) => {
     });
 });
 
-app.post('/api/grades', (req, res, next) => {
+app.post('/api/grades', (req, res) => {
+  if (!req.body.name || !req.body.course || !req.body.grade) {
+    return res.status(400).json({
+      error: 'Please fill out name, course and grade'
+    });
+  }
 
   const text = 'INSERT INTO grades(name, course, grade) VALUES($1, $2, $3) RETURNING *';
   const values = [req.body.name, req.body.course, req.body.grade];
 
   db.query(text, values)
     .then(result => {
-      const grade = result.rows;
-      res.json(grade);
+      const grade = result.rows[0];
+      res.status(201).json(grade);
     })
     .catch(err => {
       console.error(err);
@@ -54,7 +59,37 @@ app.post('/api/grades', (req, res, next) => {
         error: 'An unexpected error occurred.'
       });
     });
-  next();
+});
+
+app.put('/api/grades/:gradeId', (req, res, next) => {
+  const gradeId = parseInt(req.params.gradeId, 10);
+  if (!Number.isInteger(gradeId) || gradeId <= 0) {
+    return res.status(400).json({
+      error: '"gradeId" must be a positive integer'
+    });
+  }
+  const sql =
+    'UPDATE grades SET grade = $1 where gradeId = $2';
+
+  const params = [gradeId, req.body.grade];
+  db.query(sql, params)
+    .then(result => {
+      const grade = result.rows[0];
+      if (!grade) {
+        res.status(404).json({
+          error: `Cannot find grade with "gradeId" ${gradeId}`
+        });
+      } else {
+        res.json(grade);
+      }
+    })
+    .catch(err => {
+      // the query failed for some reason
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred.'
+      });
+    });
 });
 
 app.listen(3000, () => {
