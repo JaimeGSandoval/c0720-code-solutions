@@ -63,15 +63,16 @@ app.post('/api/grades', (req, res) => {
 
 app.put('/api/grades/:gradeId', (req, res, next) => {
   const gradeId = parseInt(req.params.gradeId, 10);
+
   if (!Number.isInteger(gradeId) || gradeId <= 0) {
     return res.status(400).json({
       error: '"gradeId" must be a positive integer'
     });
   }
-  const sql =
-    'UPDATE grades SET grade = $1 where gradeId = $2';
 
-  const params = [gradeId, req.body.grade];
+  const sql = 'UPDATE "grades" SET "grade" = $1 WHERE "gradeId" = $2 RETURNING *';
+  const params = [req.body.grade, gradeId];
+
   db.query(sql, params)
     .then(result => {
       const grade = result.rows[0];
@@ -84,7 +85,6 @@ app.put('/api/grades/:gradeId', (req, res, next) => {
       }
     })
     .catch(err => {
-      // the query failed for some reason
       console.error(err);
       res.status(500).json({
         error: 'An unexpected error occurred.'
