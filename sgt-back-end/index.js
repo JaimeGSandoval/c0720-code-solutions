@@ -1,12 +1,10 @@
 // eslint-disable-next-line no-console
-
 const express = require('express');
 const app = express();
 const pg = require('pg');
 
 app.use(express.json());
 
-// only create ONE pool for your whole server
 const db = new pg.Pool({
   connectionString: 'postgres://dev:lfz@localhost/studentGradeTable'
 });
@@ -30,7 +28,6 @@ app.get('/api/grades', (req, res, next) => {
       }
     })
     .catch(err => {
-      // the query failed for some reason
       console.error(err);
       res.status(500).json({
         error: 'An unexpected error occurred.'
@@ -82,6 +79,37 @@ app.put('/api/grades/:gradeId', (req, res, next) => {
         });
       } else {
         res.json(grade);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred.'
+      });
+    });
+});
+
+app.delete('/api/grades/:gradeId', (req, res, next) => {
+  const gradeId = parseInt(req.params.gradeId, 10);
+
+  if (!Number.isInteger(gradeId) || gradeId <= 0) {
+    return res.status(400).json({
+      error: '"gradeId" must be a positive integer'
+    });
+  }
+
+  const sql = 'DELETE FROM "grades" WHERE "gradeId" = $1 RETURNING *';
+  const params = [gradeId];
+
+  db.query(sql, params)
+    .then(result => {
+      const grade = result.rows[0];
+      if (!grade) {
+        res.status(404).json({
+          error: `Cannot find grade with "gradeId" ${gradeId}`
+        });
+      } else {
+        res.status(204).json(grade);
       }
     })
     .catch(err => {
