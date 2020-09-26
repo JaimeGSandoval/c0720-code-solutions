@@ -17,15 +17,8 @@ app.get('/api/grades', (req, res, next) => {
 
   db.query(sql)
     .then(result => {
-
       const grades = result.rows;
-      if (!grades) {
-        res.status(404).json({
-          error: 'No Grades Recorded'
-        });
-      } else {
-        res.json(grades);
-      }
+      res.json(grades);
     })
     .catch(err => {
       console.error(err);
