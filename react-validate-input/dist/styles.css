@@ -1,0 +1,33 @@
+form {
+  width: 30%;
+  height: 100px;
+  border: 1px solid red;
+  margin: auto;
+}
+
+p {
+  color: red;
+}
+
+.fa-times,
+.fa-check {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.green {
+  color: green;
+  display: inline;
+}
+
+.red {
+  color: red;
+  display: inline;
+}
